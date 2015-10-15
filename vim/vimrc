@@ -1,0 +1,311 @@
+"==============================
+"参考链接：
+"   http://blog.csdn.net/wooin/article/details/1887737
+"   https://github.com/yangyangwithgnu/use_vim_as_ide?utm_source=tuicool#3
+"==============================
+
+"=======================
+"          Vundle
+"=======================
+ set nocompatible              " be iMproved, required
+ filetype off                  " required
+ " set the runtime path to include Vundle and initialize
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
+ " alternatively, pass a path where Vundle should install plugins
+ "call vundle#begin('~/some/path/here')
+ " let Vundle manage Vundle, required
+ Plugin 'gmarik/Vundle.vim'
+ Plugin 'scrooloose/nerdtree'
+ Plugin 'tpope/vim-surround'
+ Bundle "scrooloose/syntastic"
+ Bundle 'Valloric/YouCompleteMe'
+ Bundle 'ctrlp.vim'
+"显示和关闭quickfix 快捷键：'<leader>l'
+ Bundle 'Valloric/ListToggle'
+ "主题配色插件
+ Bundle 'altercation/vim-colors-solarized'
+ Bundle 'tomasr/molokai'
+ Bundle 'phd'
+ "C++语法高亮
+ Plugin 'octol/vim-cpp-enhanced-highlight'
+ "缩进可视化
+ Bundle 'nathanaelkane/vim-indent-guides'
+ ".h文件和.cpp文件间切换
+ Bundle 'vim-scripts/a.vim'
+"自动生成标签 --没成功
+"Bundle 'vimprj'
+"Bundle 'DfrankUtil'
+"Bundle 'vim-scripts/indexer.tar.gz'
+"内容查找
+Bundle 'yegappan/grep'
+Bundle 'mileszs/ack.vim'
+Bundle 'dyng/ctrlsf.vim'
+Bundle 'plasticboy/vim-markdown'
+"注释
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'DoxygenToolkit.vim'
+"快速修改同名变量"
+Bundle 'terryma/vim-multiple-cursors'
+"快速定位"???
+Bundle 'easymotion/vim-easymotion'
+"标志无效空格"
+Bundle 'bronson/vim-trailing-whitespace'
+"括号显示高亮"
+Bundle 'kien/rainbow_parentheses.vim'
+"快速匹配配对符 如{}()"
+Bundle 'vim-scripts/matchit.zip'
+" All of your Plugins must be added before the following line
+ call vundle#end()            " required
+ filetype plugin indent on    " required
+ filetype plugin on
+"================================
+"         基本配置
+"===============================
+set cursorline                   "高亮显示行
+set cursorcolumn                 "高亮显示列
+set nu                           "显示行号
+set mouse-=a                      "鼠标可用
+set encoding=gb2312
+set guifont=LUxi/Mono/9          "设置字体，字体名和字号
+set backspace=2                  "设置退格键可用
+set wrap                         "自动换行
+"set nowrap                      "不自动换行
+"标签
+set linebreak                    "整词换行
+set whichwrap=b,s,<,>,[,]        "光标从行首和行末可以跳到另一 行去
+"set list                         "显示制表符
+set autochdir                    "自动设置目录为正在编辑的文件所在目录
+set hidden                       "没有保存的缓冲区可以自动被隐藏
+set scrolloff=10                  "光标所在上下行最少行数
+"*******快捷键*****************
+let mapleader=";"                "定义快捷键前缀
+"nw依次遍历子窗口
+nnoremap nw <C-W><C-W>
+" 跳转至右方的窗口
+nnoremap <Leader>lw <C-W>l
+" 跳转至左方的窗口
+nnoremap <Leader>hw <C-W>h
+" 跳转至上方的子窗口
+nnoremap <Leader>kw <C-W>k
+" 跳转至下方的子窗口
+nnoremap <Leader>jw <C-W>j
+"*******设置语法高亮************
+syntax enable
+syntax on
+"*******设置主题颜色************
+"*********************主题使用vundle管理也不行，需要将插件拷贝到~/.vim/colors/
+"colors solarized
+colors molokai
+"colors phd
+set background=dark
+"******查找/替换相关的设置********
+set hlsearch                     "高亮显示搜索结果
+set ignorecase                   "搜索时大小写不敏感
+set incsearch                    "查询时方便，如果要找book单词，当输入到/b时，会自动找b开头所有词
+set wildmenu                     "自身命令行模式智能补全
+set nocompatible                 "关闭兼容模式
+"set gdefault                     "替换时所有的行内匹配都被替换，而不是只有第一个
+"*******状态栏相关设置************
+set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]
+set laststatus=2    " always show the status line
+set ruler           " 在编辑过程中，在右下角显示光标位置的状态行
+
+"*******编程相关配置***************
+set showmatch                    "设置匹配模式，类似当输入一个左括号时会匹配相应的那个右括号
+set smartindent                  "智能对齐方式
+set shiftwidth=2                 "换行时行间交错使用2个空格
+set expandtab                    "插入tab时用空格替代
+set tabstop=4                    "制表符占用空格数
+set shiftwidth=4                 " 设置格式化时制表符占用空格数
+set softtabstop=4                " 让 vim 把连续数量的空格视为一个制表符
+" <leader>s 一键保存
+func! SaveFile()
+    exec 'w'
+endfunc
+map  <leader>s :call SaveFile()<CR>
+"imap <leader>s <ESC>:call SaveFile()<CR>
+"vmap <leader>s <ESC>:call SaveFile()<CR>
+" 基于缩进或语法进行代码折叠: 操作：za，打开或关闭当前折叠；zM，关闭所有折叠；zR，打开所有折叠。
+"set foldmethod=indent
+set foldmethod=syntax
+" 启动 vim 时关闭折叠代码
+set nofoldenable
+
+"设置括号等符号自动补全
+inoremap ( ()<LEFT>
+inoremap { {}<LEFT>
+inoremap " ""<LEFT>
+inoremap [ []<LEFT>
+
+"设置insert模式下的鼠标移动
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <RIGHT>
+inoremap <C-b> <Home>
+inoremap <C-e> <End>
+inoremap <C-d> <BACKSPACE>
+inoremap <C-w> <DELETE>
+
+"******设置帮助文档编码方式*********
+set helplang=cn
+set encoding=utf-8
+
+"======== =================
+      "syntastic
+"=========================
+let g:syntastic_check_on_open = 1
+let g:syntastic_cpp_include_dirs = ['/usr/include/']
+let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
+"set error or warning signs
+"let g:syntastic_error_symbol = ''
+"let g:syntastic_warning_symbol = ''
+""whether to show balloons
+let g:syntastic_enable_balloons = 1
+
+"==================
+"       YCM
+"===================
+let g:ycm_collect_identifiers_from_tags_files = 0
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '>*'
+nnoremap <Leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" =======================
+"      c tags
+" =======================
+"设 置ctags路径
+"set tags=~/Desktop/ob_git/src/sql/tags
+" 正向遍历同名标签
+ nmap <Leader>tn :tnext<CR>
+ " 反向遍历同名标签
+ nmap <Leader>tp :tprevious<CR>
+""获取当前路径的上一级的路径
+function! GET_UP_PATH(dir)
+	let pos=len(a:dir)-1
+	while pos>0
+		if (a:dir[pos]=="/" )
+			return  strpart(a:dir,0,pos)
+		endif
+		let pos=pos-1
+	endwhile
+	return  ""
+endfunction
+
+"设置相关tags
+function! s:SET_TAGS()
+	let dir = expand("%:p:h") "获得源文件路径
+	"在路径上递归向上查找tags文件
+	while dir!=""
+		if findfile("tags",dir) !=""
+			"找到了就加入到tags
+			exec "set tags+=" . dir . "/tags"
+		endif
+		if findfile("cscope.out",dir) !=""
+			if !exists( "g:cscope_added" )
+				exec "cs add " . dir . " " . dir
+				let g:cscope_added = 1
+			endif
+		endif
+		"得到上级路径
+		let dir=GET_UP_PATH(dir)
+	endwhile
+endfunction
+
+autocmd BufEnter * call s:SET_TAGS()
+
+"*********indexer*****
+
+"=======================
+"       taglist
+"=======================
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+
+"=======================
+"设置窗口管理器winManage
+"=======================
+let g:winManagerWindowLayout='FileExplorer|TagList'
+"快捷键wm
+nmap wm :WMToggle<cr>
+
+"======================
+"cscope
+"======================
+
+"========================
+"QuickFix
+"========================
+"切换到下一个结果
+nmap <F6> :cn<cr>
+"切换到上一个结果
+nmap <F7> :cp<cr>
+
+"=======================
+"miniBuf
+"========================
+"<C-Tab>向前循环切换到每个buffer上,并在但前窗口打开
+let g:BufExplMapCTabSwitchBufs = 1
+"可以用<C-h,j,k,l>切换到上下左右的窗口中去
+let g:miniBufExplMapWindowNavVim = 1
+"用<C-箭头键>切换到上下左右窗口中去
+let g:miniBufExplMapWindowNavArrows = 1
+
+"===========================
+"a.vim 切换.h文件与.cpp文件
+"===========================
+"在新Buffer中切换到c/h文件 F12
+nnoremap <silent> <F12> :A<CR>
+
+"=========================
+"     grep,ack,Ctrlsf  内容查找
+"==========================
+nnoremap <silent> <F3> :Grep<CR>
+nnoremap <Leader>sf :CtrlSF<CR>
+
+"======================
+"    powline 美化状态栏
+"=====================＝
+"let g:Powerline_colorscheme='solarized256'
+"
+"=======================
+"   indent-guides 缩进可视化,效果不时很好
+"======================
+ let g:indent_guides_enable_on_vim_startup=0  " 随 vim 自启动
+ let g:indent_guides_start_level=2           " 从第二层开始可视化显示缩进
+ let g:indent_guides_guide_size=1             " 色块宽度
+ " 快捷键 i 开/关缩进可视化
+ :nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+"================
+" 注释 'scrooloose/nerdcommenter'  'DoxygenToolkit.vim'
+" ==============
+"================
+"快速修改相同变量 vim-multiple-cursors ctrl+n; s
+"================"
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+"
+"=======================
+"标志无效空格
+"bronson/vim-trailing-whitespace
+"=====================
+map <leader><space> :FixWhitespace<cr>    "space去掉末尾空格
+"=================
+"括号显示高亮 kien/rainbow_parentheses.vim
+"================="
+let g:rbpt_max = 40
+let g:rbpt_loadcmd_toggle = 0
+
+"=============
+"括号跳转 () {}"
+"============
+map <leader>jp %
