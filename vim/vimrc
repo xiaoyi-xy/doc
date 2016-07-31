@@ -15,11 +15,13 @@
  " alternatively, pass a path where Vundle should install plugins
  "call vundle#begin('~/some/path/here')
  " let Vundle manage Vundle, required
+ source ~/mygit/doc/vim/bundle.vimrc
+ let g:clang_user_options = "-I/usr/local/lib/clang/3.4/include"
  Plugin 'gmarik/Vundle.vim'
  Plugin 'scrooloose/nerdtree'
  Plugin 'tpope/vim-surround'
- Bundle "scrooloose/syntastic"
- Bundle 'Valloric/YouCompleteMe'
+ "Bundle 'scrooloose/syntastic'
+ "Bundle 'Valloric/YouCompleteMe'
  Bundle 'ctrlp.vim'
 "显示和关闭quickfix 快捷键：'<leader>l'
  Bundle 'Valloric/ListToggle'
@@ -30,7 +32,7 @@
  "C++语法高亮
  Plugin 'octol/vim-cpp-enhanced-highlight'
  "缩进可视化
- Bundle 'nathanaelkane/vim-indent-guides'
+ "Bundle 'nathanaelkane/vim-indent-guides'
  ".h文件和.cpp文件间切换
  Bundle 'vim-scripts/a.vim'
 "自动生成标签 --没成功
@@ -48,13 +50,13 @@ Bundle 'DoxygenToolkit.vim'
 "快速修改同名变量"
 Bundle 'terryma/vim-multiple-cursors'
 "快速定位"???
-Bundle 'easymotion/vim-easymotion'
+"Bundle 'easymotion/vim-easymotion'
 "标志无效空格"
 Bundle 'bronson/vim-trailing-whitespace'
 "括号显示高亮"
 Bundle 'kien/rainbow_parentheses.vim'
 "快速匹配配对符 如{}()"
-Bundle 'vim-scripts/matchit.zip'
+"Bundle 'vim-scripts/matchit.zip'
 " All of your Plugins must be added before the following line
  call vundle#end()            " required
  filetype plugin indent on    " required
@@ -116,9 +118,9 @@ set showmatch                    "设置匹配模式，类似当输入一个左�
 set smartindent                  "智能对齐方式
 set shiftwidth=2                 "换行时行间交错使用2个空格
 set expandtab                    "插入tab时用空格替代
-set tabstop=4                    "制表符占用空格数
-set shiftwidth=4                 " 设置格式化时制表符占用空格数
-set softtabstop=4                " 让 vim 把连续数量的空格视为一个制表符
+set tabstop=2                    "制表符占用空格数
+set shiftwidth=2                 " 设置格式化时制表符占用空格数
+set softtabstop=2                " 让 vim 把连续数量的空格视为一个制表符
 " <leader>s 一键保存
 func! SaveFile()
     exec 'w'
@@ -152,31 +154,21 @@ inoremap <C-w> <DELETE>
 set helplang=cn
 set encoding=utf-8
 
-"======== =================
-      "syntastic
-"=========================
-let g:syntastic_check_on_open = 1
+""======== =================
+      ""syntastic
+""=========================
+"let g:syntastic_check_on_open = 1
 let g:syntastic_cpp_include_dirs = ['/usr/include/']
-let g:syntastic_cpp_remove_include_errors = 1
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
-"set error or warning signs
-"let g:syntastic_error_symbol = ''
-"let g:syntastic_warning_symbol = ''
-""whether to show balloons
-let g:syntastic_enable_balloons = 1
+"let g:syntastic_cpp_remove_include_errors = 1
+"let g:syntastic_cpp_check_header = 1
+"let g:syntastic_cpp_compiler = 'clang++'
+"let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
+""set error or warning signs
+""let g:syntastic_error_symbol = ''
+""let g:syntastic_warning_symbol = ''
+"""whether to show balloons
+"let g:syntastic_enable_balloons = 1
 
-"==================
-"       YCM
-"===================
-let g:ycm_collect_identifiers_from_tags_files = 0
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '>*'
-nnoremap <Leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " =======================
 "      c tags
@@ -267,23 +259,25 @@ nnoremap <silent> <F12> :A<CR>
 "=========================
 "     grep,ack,Ctrlsf  内容查找
 "==========================
-nnoremap <silent> <F3> :Grep<CR>
-nnoremap <Leader>sf :CtrlSF<CR>
+nnoremap <silent> <F3> :Rgrep<CR>
+"nnoremap <Leader>sf :CtrlSF<CR>
 
 "======================
 "    powline 美化状态栏
 "=====================＝
 "let g:Powerline_colorscheme='solarized256'
 "
-"=======================
-"   indent-guides 缩进可视化,效果不时很好
-"======================
- let g:indent_guides_enable_on_vim_startup=0  " 随 vim 自启动
- let g:indent_guides_start_level=2           " 从第二层开始可视化显示缩进
- let g:indent_guides_guide_size=1             " 色块宽度
- " 快捷键 i 开/关缩进可视化
- :nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+"
+""=======================
+""   indent-guides 缩进可视化,效果不时很好
+""======================
+ "let g:indent_guides_enable_on_vim_startup=0  " 随 vim 自启动
+ "let g:indent_guides_start_level=2           " 从第二层开始可视化显示缩进
+ "let g:indent_guides_guide_size=1             " 色块宽度
+ "" 快捷键 i 开/关缩进可视化
+ ":nmap <silent> <Leader>i <Plug>IndentGuidesToggle
 "================
+"
 " 注释 'scrooloose/nerdcommenter'  'DoxygenToolkit.vim'
 " ==============
 "================
@@ -305,7 +299,40 @@ map <leader><space> :FixWhitespace<cr>    "space去掉末尾空格
 let g:rbpt_max = 40
 let g:rbpt_loadcmd_toggle = 0
 
+"==========
+"ctrlp"
+"=========="
+let g:ctrlp_user_command = 'find %s -type f | grep -e \\.h$ -e \\.cpp$ -e \\.ipp -e \\.py$ -e \\.l$ -e \\.y$ -e \\.json$'
+"let g:ctrlp_working_path_mode = ''
+let g:Tlist_Show_One_File = 1
+let g:Tlist_Close_On_Select = 1
 "=============
 "括号跳转 () {}"
 "============
 map <leader>jp %
+
+"=============
+"mytool
+"============="
+:py import sys; import os; sys.path.append(os.path.expanduser('~/mygit/doc/vim/mytools')); import myvim
+
+inoremap <F2> <ESC>:py myvim.print_declare()<CR>
+noremap <F2> <ESC>:py myvim.print_declare()<CR>
+
+"inoremap <F3> <ESC>:py myvim.check_param()<CR>
+"noremap <F3> <ESC>:py myvim.check_param()<CR>
+
+inoremap <F4> <ESC>:py myvim.format_args()<CR>
+noremap <F4> <ESC>:py myvim.format_args()<CR>
+
+inoremap <F5> <ESC>:py myvim.add_normalizer()<CR>
+noremap <F5> <ESC>:py myvim.add_normalizer()<CR>
+
+inoremap <F6> <ESC>:py myvim.add_error_check()<CR>
+noremap <F6> <ESC>:py myvim.add_error_check()<CR>
+
+inoremap <F8> <ESC>:py myvim.add_simple_test()<CR>
+noremap <F8> <ESC>:py myvim.add_simple_test()<CR>
+
+inoremap <F9> <ESC>:py myvim.add_test()<CR>
+noremap <F9> <ESC>:py myvim.add_test()<CR>
